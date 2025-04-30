@@ -19,14 +19,18 @@ function div(arr) {
 }
 
 function operate(num1, ope, num2) {
-    if (ope === '+') {
-        return sum([num1, num2])
-    } else if (ope === '-') {
-        return sub([num1, num2])
-    } else if (ope === '*') {
-        return mul([num1, num2])
-    } else if (ope === '/') {
-        return div([num1, num2])
+    switch (ope) {
+        case '+':
+            return sum([num1, num2])
+            break;
+        case '-':
+            return sub([num1, num2])
+            break;
+        case '×':
+            return mul([num1, num2])
+            break;
+        case '÷': 
+            return div([num1, num2])
     }
 }
 
@@ -60,3 +64,121 @@ for (i = 1; i < 5; i++) {
         index++
     }
 }
+
+
+function result() {
+    if (ope !== '' && visor.textContent !== '') {
+        const num2 = Number(visor.textContent);
+        const result = operate(num1, ope, num2);
+        const rounded = parseFloat(result.toFixed(8)).toString();
+
+        visor.textContent = rounded;
+        num1 = result;
+    }
+}
+
+
+
+let num1 = 0
+let num2 = 0
+let ope = ''
+let shouldClearVisor = false;
+
+const visor = document.querySelector('.visor')
+
+const buttons = document.querySelectorAll('.btn')
+buttons.forEach(button => {
+    const value = button.textContent
+    button.addEventListener('click', () => {
+        switch (value) {
+            case 'C':
+                visor.textContent = '0';
+                num1 = 0
+                num2 = 0
+                ope = ''
+                break;
+        
+            case '.':
+                if (!visor.textContent.includes('.')) {
+                visor.textContent += '.';
+                }
+                break;
+        
+            case '±':
+                visor.textContent = (Number(visor.textContent) * -1).toString();
+                break;
+        
+            case '%':
+                visor.textContent = (Number(visor.textContent) / 100).toString();
+                break;
+            
+            case 'x²':
+                visor.textContent = (Number(visor.textContent)**2).toString();
+                break;
+
+            case '+':
+                if (visor.textContent === '' || shouldClearVisor) {
+                    break;  
+                }
+                if (ope !== '' && visor.textContent !== '') {
+                    result();
+                } else {
+                    num1 = Number(visor.textContent);
+                }
+            
+                ope = value;
+                shouldClearVisor = true;
+                break;
+
+            case '×':
+                if (ope !== '' && visor.textContent !== '') {
+                    result();
+                } else {
+                    num1 = Number(visor.textContent);
+                }
+            
+                ope = value;
+                shouldClearVisor = true;
+                break;
+
+            case '-':
+                if (ope !== '' && visor.textContent !== '') {
+                    result();
+                } else {
+                    num1 = Number(visor.textContent);
+                }
+            
+                ope = value;
+                shouldClearVisor = true;
+                break;
+
+            case '÷':
+                if (ope !== '' && visor.textContent !== '') {
+                    result();
+                } else {
+                    num1 = Number(visor.textContent);
+                }
+            
+                ope = value;
+                shouldClearVisor = true;
+                break;
+
+            case '=':
+                result();
+                ope = '';
+                shouldClearVisor = true;
+                break;
+
+            default:
+                if (!isNaN(value)) {
+                    if (visor.textContent === '0' || shouldClearVisor) {
+                        visor.textContent = value;
+                        shouldClearVisor = false;
+                    } else if (visor.textContent.length < 12) {
+                        visor.textContent += value;
+                    }
+                }
+                break;
+        }
+    });
+});

@@ -6,6 +6,9 @@ html {
     box-sizing: border-box;
     padding: 0;
     border: 0;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
 }
 
 button {
@@ -38,7 +41,7 @@ button:hover {
 
 .visor {
     font-family: 'Jersey 25';
-    font-size: 70px;
+    font-size: 50px;
     align-items: end;
     justify-content: end;
     display: flex;
